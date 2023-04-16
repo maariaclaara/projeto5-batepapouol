@@ -1,11 +1,8 @@
 axios.defaults.headers.common['Authorization'] = 'yIyePyljKKLlAAqdxoXrNeHd';
 
-let message = [];
-
 let user = {
     name: ''
 };
-
 
 while (user.name === '' || user.name === null){
     user.name = prompt('Qual seu lindo nome?');
@@ -64,3 +61,85 @@ function statusError() {
 }
 
 
+/*Carregar mensagens*/
+
+function loadMessages() {
+    const promiseGET = axios.get('https://mock-api.driven.com.br/api/vm/uol/messages');
+    promiseGET.then(messageConnected);
+    promiseGET.catch(messageError);
+};
+
+function messageConnected(message) {
+    const messages = message.data
+
+    let containerContent = document.querySelector('.content');
+
+    containerContent.innerHTML = '';
+
+    for (let i = 0; i < messages.length; i++){
+
+        switch (messages[i].type){
+
+            case 'status':
+                containerContent.innerHTML += `
+                <div data-test="message" class='divMessage'>
+                    <p>
+                        <span class='time'>(${messages[i].time})</span>
+                        <strong class='name'>${messages[i].from}</strong>
+                        <span class='text'>${messages[i].text}</span>
+                    </p>
+                </div>
+                `;
+            break;
+
+            case 'message':
+                containerContent.innerHTML += `
+                <div data-test="message" class='divMessage2'>
+                    <p>
+                        <span class='time'>(${messages[i].time})</span>
+                        <strong class='name'>${messages[i].from}</strong>
+                        <span class='text'>para</span>
+                        <strong class='name'>${messages[i].to}:</strong>
+                        <span class='text'>${messages[i].text}</span> 
+                    </p>
+                </div>
+                `;
+            break;
+        };
+    };
+};
+
+function messageError() {
+    window.location.reload();
+};
+
+
+/*Enviar mensagens*/
+
+function Send () {
+
+    const sendMessage = document.querySelector('.sendMessage').value;
+    document.querySelector('.sendMessage').value = '';
+    if (sendMessage === ''){
+        return sendMessage;
+    };
+
+    const newText = {
+        from: user.name,
+        to: 'Todos',
+        text: sendMessage,
+        type: 'message'
+    };
+
+    const promisePOST = axios.post('https://mock-api.driven.com.br/api/vm/uol/messages', newText);
+    promisePOST.then(loadMessages);
+    promisePOST.catch(messageError);
+};
+
+
+/*Executar funcoes*/
+
+loginUser();
+connectedUser();
+loadMessages();
+Send ();
