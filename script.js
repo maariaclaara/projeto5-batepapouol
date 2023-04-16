@@ -1,11 +1,15 @@
-axios.defaults.headers.common['Authorization'] = '';
-
-const login = prompt('Qual seu lindo nome?');
+axios.defaults.headers.common['Authorization'] = 'yIyePyljKKLlAAqdxoXrNeHd';
 
 let message = [];
 
 let user = {
-    name: login
+    name: ''
+};
+
+
+while (user.name === '' || user.name === null){
+    user.name = prompt('Qual seu lindo nome?');
+    console.log(user.name);
 };
 
 
@@ -43,7 +47,7 @@ function errorName (error) {
 };
 
 
-/*Usuário conectado*/
+/*Verificar conexão*/
 
 function connectedUser() {
     const promisePOST = axios.post('https://mock-api.driven.com.br/api/vm/uol/status', user);
@@ -58,3 +62,5 @@ function statusConnected() {
 function statusError() {
     console.log('Usuário desconectado');
 }
+
+
