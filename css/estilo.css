@@ -75,12 +75,13 @@ body {
     outline: none;
     margin-left: 17px;
     height: 30px;
-    width: 95%;
+    width: 90%;
+    word-wrap: break-word;
 }
 
 .divMessage,
 .divMessage2 {
-  height: 40px;
+  height: auto;
   border-radius: 2px;
   margin: 5px 0px;
   font-family: "Roboto", sans-serif;
