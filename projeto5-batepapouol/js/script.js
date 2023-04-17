@@ -22,13 +22,14 @@ function loginUser () {
 
 /*Verificar status*/
 
-function statusUser () {
+function statusUser (response) {
 
+    if(response.status === 200){
     connectedUser();
     setInterval(connectedUser, 5000);
-
     loadMessages();
     setInterval(loadMessages, 3000);
+    };
 };
 
 
@@ -58,6 +59,7 @@ function statusConnected() {
 
 function statusError() {
     console.log('Usuário desconectado');
+    window.location.reload();
 };
 
 
